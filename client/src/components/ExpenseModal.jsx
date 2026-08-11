@@ -11,18 +11,24 @@ const categories = [
 export default function ExpenseModal({ isOpen, onClose, onExpenseAdded, expenseToEdit }) {
     const isEditMode = !!expenseToEdit;
 
+    const getFormattedDate = (dateVal) => {
+        if (!dateVal) return new Date().toISOString().split('T')[0];
+        const d = new Date(dateVal);
+        if (isNaN(d.getTime())) return new Date().toISOString().split('T')[0];
+        return d.toISOString().split('T')[0];
+    };
+
     const [formData, setFormData] = useState({
         amount: '',
         category: 'Food',
         description: '',
         paymentMethod: 'Cash',
-        date: new Date().toISOString().split('T')[0]
+        date: getFormattedDate(new Date())
     });
     
     const [loading, setLoading] = useState(false);
     const [alertMsg, setAlertMsg] = useState('');
 
-    // Jab bhi expenseToEdit change ho ya modal khule, form data update karein
     useEffect(() => {
         if (expenseToEdit) {
             setFormData({
@@ -30,7 +36,7 @@ export default function ExpenseModal({ isOpen, onClose, onExpenseAdded, expenseT
                 category: expenseToEdit.category || 'Food',
                 description: expenseToEdit.description || '',
                 paymentMethod: expenseToEdit.paymentMethod || 'Cash',
-                date: expenseToEdit.date ? new Date(expenseToEdit.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
+                date: getFormattedDate(expenseToEdit.date)
             });
         } else {
             setFormData({
@@ -38,7 +44,7 @@ export default function ExpenseModal({ isOpen, onClose, onExpenseAdded, expenseT
                 category: 'Food',
                 description: '',
                 paymentMethod: 'Cash',
-                date: new Date().toISOString().split('T')[0]
+                date: getFormattedDate(new Date())
             });
         }
         setAlertMsg('');
@@ -62,7 +68,6 @@ export default function ExpenseModal({ isOpen, onClose, onExpenseAdded, expenseT
             } else {
                 res = await API.post('/expenses', formData);
                 
-                // Agar backend se budget exceed alert aaye
                 if (res.data.alert) {
                     setAlertMsg(res.data.alert);
                     toast.warning(res.data.alert, { position: "top-right", autoClose: 5000 });

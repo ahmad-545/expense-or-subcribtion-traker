@@ -9,7 +9,7 @@ const expenseSchema = new mongoose.Schema({
         required: true 
     },
     description: { type: String },
-    date: { type: Date, default: Date.now },
+    date: { type: String, required: true }, // <--- Isay Date se String kar dein
     paymentMethod: { type: String, default: 'Cash' }
 }, { timestamps: true });
 

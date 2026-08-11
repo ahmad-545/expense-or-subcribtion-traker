@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Receipt, CreditCard, Bot, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Receipt, CreditCard, Target, Bot, LogOut, Menu, X } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 
 export default function Sidebar() {
@@ -17,6 +17,7 @@ export default function Sidebar() {
     const navItems = [
         { path: '/', name: 'Dashboard', icon: LayoutDashboard },
         { path: '/expenses', name: 'Expenses', icon: Receipt },
+        { path: '/budgets', name: 'Budgets', icon: Target },
         { path: '/subscriptions', name: 'Subscriptions & Cards', icon: CreditCard },
         { path: '/ai-advisor', name: 'AI Advisor', icon: Bot },
     ];

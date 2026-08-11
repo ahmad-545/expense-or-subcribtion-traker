@@ -10,6 +10,7 @@ import subscriptionRoutes from './routes/subscription.routes.js';
 import cardRoutes from './routes/card.routes.js';
 import budgetRoutes from './routes/budget.routes.js';
 import alertRoutes from './routes/alert.routes.js';
+import aiRoutes from './routes/ai.routes.js';
 import { sendDirectWhatsApp as sendWhatsAppMessage } from './utils/whatsappClient.js'
 
 dotenv.config();
@@ -28,8 +29,9 @@ app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/cards', cardRoutes);
 app.use('/api/budgets', budgetRoutes);
 app.use('/api/alerts', alertRoutes);
+app.use('/api/ai', aiRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

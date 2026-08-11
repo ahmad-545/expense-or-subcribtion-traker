@@ -8,6 +8,7 @@ import Expenses from './pages/Expenses';
 import Subscriptions from './pages/Subscriptions';
 import AIAdvisor from './pages/AIAdvisor';
 import Profile from './pages/Profile';
+import Budgets from './pages/Budgets';
 
 const ProtectedRoute = ({ children }) => {
     const { user, loading } = useContext(AuthContext);
@@ -35,6 +36,7 @@ export default function App() {
                     <Route path="/subscriptions" element={<ProtectedRoute><Subscriptions /></ProtectedRoute>} />
                     <Route path="/ai-advisor" element={<ProtectedRoute><AIAdvisor /></ProtectedRoute>} />
                     <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                    <Route path="/budgets" element={<ProtectedRoute><Budgets /></ProtectedRoute>} />
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
             </Router>

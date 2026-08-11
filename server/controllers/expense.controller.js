@@ -4,7 +4,8 @@ import client from '../utils/whatsappClient.js';
 
 export const addExpense = async (req, res) => {
     try {
-        const { amount, category, description, date, paymentMethod } = req.body;
+        console.log("RECEIVED EXPENSE BODY:", req.body);
+        let { amount, category, description, date, paymentMethod } = req.body;
         const userId = req.user.id;
 
         // 1. User ki profile find karein
@@ -41,24 +42,28 @@ export const addExpense = async (req, res) => {
             }
         }
 
-        // 5. Expense ko lazmi save karein (chahe limit exceed hui ho ya nahi)
+        // Date ko safely format karein taake string schema ke mutabiq match ho
+        const formattedDate = date ? new Date(date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
+
+        // 5. Expense ko lazmi save karein
         const expense = await Expense.create({
             userId,
-            amount,
+            amount: Number(amount),
             category,
             description,
-            date,
-            paymentMethod
+            date: formattedDate,
+            paymentMethod: paymentMethod || 'Cash'
         });
 
-        // 6. Response bhein jisme expense bhi ho aur alert message bhi agar ho
+        // 6. Response bhelein
         res.status(201).json({ 
             success: true, 
             expense, 
             alert: alertMessage 
         });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error("ADD EXPENSE ERROR:", err);
+        res.status(400).json({ success: false, message: err.message });
     }
 };
 
@@ -84,13 +89,16 @@ export const deleteExpense = async (req, res) => {
 // UPDATE Expense
 export const updateExpense = async (req, res) => {
     try {
+        if (req.body.date) {
+            req.body.date = new Date(req.body.date).toISOString().split('T')[0];
+        }
         const updatedExpense = await Expense.findByIdAndUpdate(
             req.params.id, 
             req.body, 
-            { new: true }
+            { new: true, runValidators: true }
         );
         res.json({ success: true, expense: updatedExpense });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(400).json({ error: err.message });
     }
 };
