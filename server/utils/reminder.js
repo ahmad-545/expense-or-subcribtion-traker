@@ -1,11 +1,11 @@
 import cron from 'node-cron';
 import Subscription from '../models/Subscription.model.js';
-import { sendDirectWhatsApp } from '../utils/whatsappClient.js'; // Updated path to match filename
+import { sendEmail } from '../utils/sendEmail.js';
 
 const initReminders = () => {
     cron.schedule('0 9 * * *', async () => {
         try {
-            console.log("Checking subscription renewal reminders for WhatsApp...");
+            console.log("Checking subscription renewal reminders for Email...");
 
             const today = new Date();
             const targetDate = new Date();
@@ -17,14 +17,15 @@ const initReminders = () => {
             }).populate('userId');
 
             for (const sub of activeSubs) {
-                if (sub.userId && sub.userId.phone) {
-                    const message = `🔔 *ExpenseAI Reminder*\n\nHi ${sub.userId.name},\nYour subscription for *"${sub.name}"* (Rs. ${sub.amount}) is due for renewal on ${new Date(sub.renewalDate).toDateString()}.`;
+                if (sub.userId && sub.userId.email) {
+                    const subject = "🔔 Subscription Renewal Reminder";
+                    const message = `Hi ${sub.userId.name},\n\nYour subscription for "${sub.name}" (Rs. ${sub.amount}) is due for renewal on ${new Date(sub.renewalDate).toDateString()}.\n\nPlease review your account!`;
                     
-                    await sendDirectWhatsApp(sub.userId.phone, message);
+                    await sendEmail(sub.userId.email, subject, message);
                 }
             }
         } catch (err) {
-            console.error("WhatsApp Reminder cron error:", err);
+            console.error("Email Reminder cron error:", err);
         }
     });
 };

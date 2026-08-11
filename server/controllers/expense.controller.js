@@ -1,6 +1,6 @@
 import Expense from '../models/Expense.model.js';
 import User from '../models/User.model.js'; 
-import client from '../utils/whatsappClient.js'; 
+import { sendEmail } from '../utils/sendEmail.js';
 
 export const addExpense = async (req, res) => {
     try {
@@ -27,17 +27,15 @@ export const addExpense = async (req, res) => {
         if (newTotalSpent > user.monthlyIncome) {
             alertMessage = `Warning! Yeh expense milane se aapka total spend (Rs. ${newTotalSpent}) monthly income (Rs. ${user.monthlyIncome}) se barh gaya hai!`;
 
-            // WhatsApp par alert bhejne ka code
-            if (client && user.phone) {
+            // Email par alert bhejne ka code
+            if (user.email) {
                 try {
-                    const cleanPhone = user.phone.replace(/[^0-9]/g, ''); 
-                    const formattedPhone = `${cleanPhone}@c.us`;
+                    const subject = "🚨 BUDGET LIMIT EXCEEDED!";
+                    const message = `Hi ${user.name},\n\nYour total expenses (Rs. ${newTotalSpent}) have crossed your monthly income (Rs. ${user.monthlyIncome}).\n\nPlease review your spending!`;
                     
-                    const waMessage = `🚨 *BUDGET LIMIT EXCEEDED!*\n\nHi ${user.name},\nYour total expenses (*Rs. ${newTotalSpent}*) have crossed your monthly income (*Rs. ${user.monthlyIncome}*).\n\nPlease review your spending!`;
-                    
-                    await client.sendMessage(formattedPhone, waMessage);
-                } catch (waErr) {
-                    console.error("WhatsApp message failed to send:", waErr);
+                    await sendEmail(user.email, subject, message);
+                } catch (emailErr) {
+                    console.error("Email failed to send:", emailErr);
                 }
             }
         }

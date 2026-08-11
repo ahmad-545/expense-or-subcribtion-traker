@@ -1,6 +1,6 @@
 import Subscription from '../models/Subscription.model.js';
 import User from '../models/User.model.js';
-import client from '../utils/whatsappClient.js';
+import { sendEmail } from '../utils/sendEmail.js';
 
 export const addSubscription = async (req, res) => {
     try {
@@ -15,23 +15,21 @@ export const addSubscription = async (req, res) => {
 
         // 2. Check karein ke subscription amount monthly income se zyada hai ya nahi
         if (Number(amount) > user.monthlyIncome) {
-            if (client && user.phone) {
+            if (user.email) {
                 try {
-                    const cleanPhone = user.phone.replace(/[^0-9]/g, '');
-                    const formattedPhone = `${cleanPhone}@c.us`;
+                    const subject = "🚨 SUBSCRIPTION LIMIT ALERT!";
+                    const message = `Hi ${user.name},\n\nYour new subscription for ${name} (Rs. ${amount}) exceeds your monthly income (Rs. ${user.monthlyIncome}).\n\nPlease review your financial goals!`;
                     
-                    const alertMessage = `🚨 *SUBSCRIPTION LIMIT ALERT!*\n\nHi ${user.name},\nYour new subscription for *${name}* (Rs. ${amount}) exceeds your monthly income (*Rs. ${user.monthlyIncome}*).\n\nPlease review your financial goals!`;
-                    
-                    await client.sendMessage(formattedPhone, alertMessage);
-                } catch (waErr) {
-                    console.error("WhatsApp message failed to send:", waErr);
+                    await sendEmail(user.email, subject, message);
+                } catch (emailErr) {
+                    console.error("Email failed to send:", emailErr);
                 }
             }
 
             return res.status(400).json({ 
                 success: false,
                 warning: true, 
-                message: `Warning! Yeh subscription (Rs. ${amount}) aapki monthly income (Rs. ${user.monthlyIncome}) se zyada hai! WhatsApp par alert bhej diya gaya hai.` 
+                message: `Warning! Yeh subscription (Rs. ${amount}) aapki monthly income (Rs. ${user.monthlyIncome}) se zyada hai! Email par alert bhej diya gaya hai.` 
             });
         }
 
