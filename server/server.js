@@ -11,7 +11,7 @@ import cardRoutes from './routes/card.routes.js';
 import budgetRoutes from './routes/budget.routes.js';
 import alertRoutes from './routes/alert.routes.js';
 import aiRoutes from './routes/ai.routes.js';
-import { sendDirectWhatsApp as sendWhatsAppMessage } from './utils/whatsappClient.js'
+import { sendDirectWhatsApp as sendWhatsAppMessage } from './utils/whatsappClient.js';
 
 dotenv.config();
 
@@ -31,8 +31,19 @@ app.use('/api/budgets', budgetRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/ai', aiRoutes);
 
+// Root test route taake browser mein URL kholne par error na aaye
+app.get('/', (req, res) => {
+    res.send('Backend is running successfully on Vercel!');
+});
+
 const PORT = process.env.PORT || 8000;
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// Local development ke liye app.listen
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}
+
+// Vercel serverless deployment ke liye export karna zaroori hai
+export default app;
