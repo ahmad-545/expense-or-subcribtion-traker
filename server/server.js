@@ -11,7 +11,6 @@ import cardRoutes from './routes/card.routes.js';
 import budgetRoutes from './routes/budget.routes.js';
 import alertRoutes from './routes/alert.routes.js';
 import aiRoutes from './routes/ai.routes.js';
-import { sendDirectWhatsApp as sendWhatsAppMessage } from './utils/whatsappClient.js';
 
 dotenv.config();
 
