@@ -1,14 +1,13 @@
 import { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
-import { User, Mail, Lock, Phone, DollarSign, Target, ArrowRight } from 'lucide-react';
+import { User, Mail, Lock, DollarSign, Target, ArrowRight } from 'lucide-react';
 
 export default function Register() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
-        phone: '',
         monthlyIncome: '',
         savingGoal: ''
     });
@@ -26,12 +25,11 @@ export default function Register() {
         setError('');
         setLoading(true);
         
-        // Register function call with phone number
+        // Register function call without phone number
         const res = await register(
             formData.name, 
             formData.email, 
             formData.password, 
-            formData.phone,
             Number(formData.monthlyIncome), 
             Number(formData.savingGoal)
         );
@@ -45,71 +43,112 @@ export default function Register() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4 py-8 font-sans">
-            <div className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl">
+        <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4 py-8 font-sans selection:bg-emerald-500 selection:text-white">
+            <div className="max-w-md w-full bg-slate-900/90 border border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
                 <div className="text-center mb-6">
-                    <h1 className="text-2xl font-bold text-white tracking-tight">ExpenseAI<span className="text-brand-500">.</span></h1>
-                    <p className="text-slate-400 text-sm mt-1">Create an account to get smart WhatsApp reminders.</p>
+                    <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                        ExpenseAI<span className="text-emerald-500">.</span>
+                    </h1>
+                    <p className="text-slate-400 text-xs sm:text-sm mt-1">Create an account to get smart email reminders.</p>
                 </div>
 
                 {error && (
-                    <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-3 rounded-xl mb-4 text-sm">
+                    <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-3 rounded-xl mb-4 text-xs sm:text-sm animate-shake">
                         {error}
                     </div>
                 )}
                 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-slate-300 text-xs font-medium mb-1 uppercase tracking-wider">Full Name</label>
+                        <label className="block text-slate-300 text-xs font-semibold mb-1.5 uppercase tracking-wider">Full Name</label>
                         <div className="relative">
                             <User className="absolute left-3.5 top-3 text-slate-500" size={18} />
-                            <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="John Doe" className="w-full pl-10 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:border-brand-500" />
+                            <input 
+                                type="text" 
+                                name="name" 
+                                value={formData.name} 
+                                onChange={handleChange} 
+                                required 
+                                placeholder="John Doe" 
+                                className="w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:border-emerald-500 transition" 
+                            />
                         </div>
                     </div>
+
                     <div>
-                        <label className="block text-slate-300 text-xs font-medium mb-1 uppercase tracking-wider">Email Address</label>
+                        <label className="block text-slate-300 text-xs font-semibold mb-1.5 uppercase tracking-wider">Email Address</label>
                         <div className="relative">
                             <Mail className="absolute left-3.5 top-3 text-slate-500" size={18} />
-                            <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="name@example.com" className="w-full pl-10 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:border-brand-500" />
+                            <input 
+                                type="email" 
+                                name="email" 
+                                value={formData.email} 
+                                onChange={handleChange} 
+                                required 
+                                placeholder="name@example.com" 
+                                className="w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:border-emerald-500 transition" 
+                            />
                         </div>
                     </div>
+
                     <div>
-                        <label className="block text-slate-300 text-xs font-medium mb-1 uppercase tracking-wider">Password</label>
+                        <label className="block text-slate-300 text-xs font-semibold mb-1.5 uppercase tracking-wider">Password</label>
                         <div className="relative">
                             <Lock className="absolute left-3.5 top-3 text-slate-500" size={18} />
-                            <input type="password" name="password" value={formData.password} onChange={handleChange} required placeholder="••••••••" className="w-full pl-10 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:border-brand-500" />
+                            <input 
+                                type="password" 
+                                name="password" 
+                                value={formData.password} 
+                                onChange={handleChange} 
+                                required 
+                                placeholder="••••••••" 
+                                className="w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:border-emerald-500 transition" 
+                            />
                         </div>
                     </div>
-                    <div>
-                        <label className="block text-slate-300 text-xs font-medium mb-1 uppercase tracking-wider">WhatsApp Number (e.g., 923001234567)</label>
-                        <div className="relative">
-                            <Phone className="absolute left-3.5 top-3 text-slate-500" size={18} />
-                            <input type="text" name="phone" value={formData.phone} onChange={handleChange} required placeholder="923001234567" className="w-full pl-10 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:border-brand-500" />
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-slate-300 text-xs font-medium mb-1 uppercase tracking-wider">Monthly Income</label>
+                            <label className="block text-slate-300 text-xs font-semibold mb-1.5 uppercase tracking-wider">Monthly Income</label>
                             <div className="relative">
                                 <DollarSign className="absolute left-3.5 top-3 text-slate-500" size={18} />
-                                <input type="number" name="monthlyIncome" value={formData.monthlyIncome} onChange={handleChange} placeholder="50000" className="w-full pl-10 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:border-brand-500" />
+                                <input 
+                                    type="number" 
+                                    name="monthlyIncome" 
+                                    value={formData.monthlyIncome} 
+                                    onChange={handleChange} 
+                                    placeholder="50000" 
+                                    className="w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:border-emerald-500 transition" 
+                                />
                             </div>
                         </div>
                         <div>
-                            <label className="block text-slate-300 text-xs font-medium mb-1 uppercase tracking-wider">Saving Goal</label>
+                            <label className="block text-slate-300 text-xs font-semibold mb-1.5 uppercase tracking-wider">Saving Goal</label>
                             <div className="relative">
                                 <Target className="absolute left-3.5 top-3 text-slate-500" size={18} />
-                                <input type="number" name="savingGoal" value={formData.savingGoal} onChange={handleChange} placeholder="10000" className="w-full pl-10 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:border-brand-500" />
+                                <input 
+                                    type="number" 
+                                    name="savingGoal" 
+                                    value={formData.savingGoal} 
+                                    onChange={handleChange} 
+                                    placeholder="10000" 
+                                    className="w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:border-emerald-500 transition" 
+                                />
                             </div>
                         </div>
                     </div>
-                    <button type="submit" disabled={loading} className="w-full mt-2 py-3 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center gap-2 shadow-lg shadow-brand-500/20 text-sm disabled:opacity-50">
+
+                    <button 
+                        type="submit" 
+                        disabled={loading} 
+                        className="w-full mt-3 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl transition duration-200 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 text-sm disabled:opacity-50"
+                    >
                         {loading ? 'Creating Account...' : 'Sign Up'} <ArrowRight size={16} />
                     </button>
                 </form>
 
-                <p className="text-slate-400 text-center text-xs mt-6">
-                    Already have an account? <Link to="/login" className="text-brand-400 hover:underline font-medium">Sign in</Link>
+                <p className="text-slate-400 text-center text-xs sm:text-sm mt-6">
+                    Already have an account? <Link to="/login" className="text-emerald-400 hover:underline font-medium">Sign in</Link>
                 </p>
             </div>
         </div>

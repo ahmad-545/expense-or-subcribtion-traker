@@ -28,7 +28,7 @@ export default function Navbar() {
         return [
             ...savedNotifs,
             { id: 1, title: 'Server Alert', desc: 'Backend connection pool usage is high.', type: 'warning', time: '10m ago' },
-            { id: 2, title: 'Deployment Success', desc: 'Your virtual try-on app was deployed.', type: 'success', time: '1h ago' },
+            { id: 2, title: 'Email Service', desc: 'Nodemailer notification gateway active.', type: 'success', time: '1h ago' },
             { id: 3, title: 'New Update', desc: 'Expense tracker schema updated.', type: 'info', time: '2h ago' },
         ];
     });
@@ -60,22 +60,22 @@ export default function Navbar() {
         localStorage.removeItem('app_notifications');
         setNotifications([
             { id: 1, title: 'Server Alert', desc: 'Backend connection pool usage is high.', type: 'warning', time: '10m ago' },
-            { id: 2, title: 'Deployment Success', desc: 'Your virtual try-on app was deployed.', type: 'success', time: '1h ago' },
+            { id: 2, title: 'Email Service', desc: 'Nodemailer notification gateway active.', type: 'success', time: '1h ago' },
             { id: 3, title: 'New Update', desc: 'Expense tracker schema updated.', type: 'info', time: '2h ago' },
         ]);
     };
 
     return (
-        <header className="bg-slate-900/80 backdrop-blur-md border-b border-slate-800/80 h-16 flex items-center justify-between px-6 text-white sticky top-0 z-40 shadow-sm">
+        <header className="bg-slate-900/85 backdrop-blur-md border-b border-slate-800/80 h-16 flex items-center justify-between px-4 sm:px-6 text-white sticky top-0 z-40 shadow-sm">
             {/* Dynamic Page Title & Live Indicator */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2.5 sm:gap-3">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <h2 className="text-sm md:text-base font-bold text-slate-200 tracking-wide">
+                <h2 className="text-xs sm:text-sm md:text-base font-bold text-slate-200 tracking-wide truncate max-w-[180px] sm:max-w-none">
                     {getPageTitle()}
                 </h2>
             </div>
             
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 sm:gap-4">
                 {/* Notification Bell with Badge and Popup */}
                 <div className="relative" ref={dropdownRef}>
                     <button 
@@ -94,7 +94,7 @@ export default function Navbar() {
 
                     {/* Notification Dropdown Menu */}
                     {showNotifications && (
-                        <div className="absolute right-0 mt-3 w-80 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden z-50">
+                        <div className="absolute right-0 mt-3 w-72 sm:w-80 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden z-50">
                             <div className="flex items-center justify-between px-4 py-3 bg-slate-950/80 border-b border-slate-800">
                                 <span className="font-bold text-sm text-slate-200">Notifications</span>
                                 <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full font-semibold">{notifications.length} Items</span>

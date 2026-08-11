@@ -57,27 +57,27 @@ export default function Expenses() {
     }) : [];
 
     return (
-        <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex flex-col md:flex-row relative">
+        <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex flex-col md:flex-row relative selection:bg-emerald-500 selection:text-white">
             <Sidebar />
             <div className="flex-1 flex flex-col min-w-0">
                 <Navbar />
-                <main className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto w-full">
+                <main className="p-4 md:p-8 space-y-6 max-w-7xl mx-auto w-full">
                     {/* Header */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                            <h1 className="text-xl md:text-2xl font-bold text-white tracking-tight">Expense Management</h1>
+                            <h1 className="text-xl md:text-2xl font-extrabold text-white tracking-tight">Expense Management</h1>
                             <p className="text-slate-400 text-xs md:text-sm mt-1">Track, search, and manage all your daily spendings.</p>
                         </div>
                         <button 
                             onClick={handleOpenAddModal}
-                            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-xl transition shadow-lg shadow-brand-500/20 text-xs md:text-sm"
+                            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl transition shadow-lg shadow-emerald-500/20 text-xs md:text-sm"
                         >
                             <Plus size={18} /> Add Expense
                         </button>
                     </div>
 
                     {/* Filters & Search */}
-                    <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+                    <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-xl">
                         <div className="relative w-full md:w-80">
                             <Search className="absolute left-3.5 top-3 text-slate-400" size={18} />
                             <input 
@@ -85,7 +85,7 @@ export default function Expenses() {
                                 placeholder="Search expenses..." 
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white text-xs md:text-sm focus:outline-none focus:border-brand-500"
+                                className="w-full pl-10 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white text-xs md:text-sm focus:outline-none focus:border-emerald-500 transition"
                             />
                         </div>
                         <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scrollbar-none">
@@ -95,7 +95,7 @@ export default function Expenses() {
                                     onClick={() => setSelectedCategory(cat)}
                                     className={`px-3 md:px-4 py-2 rounded-xl text-xs font-medium transition whitespace-nowrap ${
                                         selectedCategory === cat 
-                                            ? 'bg-brand-500 text-white shadow-md shadow-brand-500/20' 
+                                            ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20' 
                                             : 'bg-slate-950 text-slate-400 hover:bg-slate-800 hover:text-white border border-slate-800'
                                     }`}
                                 >
@@ -106,7 +106,7 @@ export default function Expenses() {
                     </div>
 
                     {/* Expenses Table */}
-                    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-6 shadow-sm">
+                    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-6 shadow-xl">
                         {filteredExpenses.length === 0 ? (
                             <div className="text-center py-12">
                                 <Receipt className="mx-auto text-slate-600 mb-3" size={48} />
@@ -128,7 +128,7 @@ export default function Expenses() {
                                     <tbody className="divide-y divide-slate-800 text-xs md:text-sm">
                                         {filteredExpenses.map((exp) => (
                                             <tr key={exp._id} className="hover:bg-slate-800/40 transition">
-                                                <td className="py-3.5 px-4 font-medium text-brand-400">{exp.category}</td>
+                                                <td className="py-3.5 px-4 font-medium text-emerald-400">{exp.category}</td>
                                                 <td className="py-3.5 px-4 text-slate-300">{exp.description || 'N/A'}</td>
                                                 <td className="py-3.5 px-4 text-slate-400">{exp.paymentMethod}</td>
                                                 <td className="py-3.5 px-4 font-semibold text-white">Rs. {exp.amount}</td>

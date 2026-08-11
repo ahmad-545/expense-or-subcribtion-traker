@@ -122,11 +122,11 @@ export default function DashboardContent() {
                     trend="Total spent"
                 />
                 <StatCard 
-                    title="Total Income" 
-                    value={`Rs. ${user?.monthlyIncome || 0}`} 
+                    title="Saving Goal" 
+                    value={`Rs. ${user?.savingGoal || 0}`} 
                     icon={Target} 
                     colorClass="text-purple-400" 
-                    trend="Monthly limit"
+                    trend="Target savings"
                 />
                 <StatCard 
                     title="Active Bills" 
@@ -137,7 +137,7 @@ export default function DashboardContent() {
                 />
             </div>
 
-            {/* 4 Main Dashboard Sections (Matching Reference Image Layout) */}
+            {/* 4 Main Dashboard Sections */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 
                 {/* 1. Expense Overview (Donut Chart with Legend) */}
