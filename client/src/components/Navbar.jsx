@@ -64,9 +64,10 @@ export default function Navbar() {
     };
 
     return (
-        <header className="relative bg-slate-900/85 backdrop-blur-md border-b border-slate-800/80 h-16 flex items-center justify-between px-4 sm:px-6 text-white sticky top-0 z-40 shadow-sm w-full flex-shrink-0">
+        <header className="bg-slate-900/95 backdrop-blur-md border-b border-slate-800/80 h-16 flex items-center justify-between px-4 sm:px-6 text-white sticky top-0 z-40 shadow-sm w-full flex-shrink-0">
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent" />
 
+            {/* Dynamic Page Title & Live Indicator */}
             <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 pr-2">
                 <span className="relative flex h-2.5 w-2.5 flex-shrink-0">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60"></span>
@@ -78,6 +79,7 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+                {/* Notification Bell */}
                 <div className="relative" ref={dropdownRef}>
                     <button
                         onClick={() => setShowNotifications(!showNotifications)}
@@ -92,6 +94,7 @@ export default function Navbar() {
                         )}
                     </button>
 
+                    {/* Notification Dropdown Menu */}
                     {showNotifications && (
                         <div className="animate-dropdown absolute right-0 mt-3 w-72 sm:w-80 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden z-50">
                             <div className="flex items-center justify-between px-4 py-3 bg-slate-950/80 border-b border-slate-800">
@@ -133,6 +136,7 @@ export default function Navbar() {
                     )}
                 </div>
 
+                {/* Settings Link */}
                 <Link
                     to="/profile"
                     className="group p-2.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-emerald-500/40 hover:bg-slate-800 text-slate-300 hover:text-emerald-400 transition-all duration-300 shadow-sm active:scale-90"
@@ -141,6 +145,7 @@ export default function Navbar() {
                     <Settings size={18} className="transition-transform duration-500 group-hover:rotate-90" />
                 </Link>
 
+                {/* User Avatar */}
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center font-bold text-white shadow-md shadow-emerald-500/20 border border-emerald-500/30 flex-shrink-0">
                     {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
                 </div>
