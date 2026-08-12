@@ -27,10 +27,10 @@ export default function Login() {
     return (
         <div className="min-h-screen flex items-center justify-center bg-[#030014] px-4 py-8 relative overflow-hidden font-sans selection:bg-emerald-500 selection:text-white">
             
-            {/* Animated Background Glowing Blobs */}
-            <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-blue-600/20 blur-[120px] animate-blob pointer-events-none"></div>
-            <div className="absolute bottom-10 right-10 w-72 h-72 rounded-full bg-purple-600/20 blur-[120px] animate-blob [animation-delay:3s] pointer-events-none"></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-emerald-600/15 blur-[130px] animate-blob [animation-delay:6s] pointer-events-none"></div>
+            {/* Animated Background Glowing Elements */}
+            <div className="absolute top-12 left-12 w-80 h-80 rounded-full bg-blue-600/25 blur-[130px] animate-blob-slow pointer-events-none"></div>
+            <div className="absolute bottom-12 right-12 w-80 h-80 rounded-full bg-purple-600/25 blur-[130px] animate-blob-slow animation-delay-2000 pointer-events-none"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-emerald-600/15 blur-[140px] animate-blob-slow animation-delay-4000 pointer-events-none"></div>
 
             {/* Glassmorphism Card */}
             <div className="max-w-md w-full bg-slate-900/70 border border-slate-800/60 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-2xl relative z-10">
