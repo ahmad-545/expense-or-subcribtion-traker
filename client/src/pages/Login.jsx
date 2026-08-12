@@ -25,14 +25,22 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center video-bg-glow px-4 py-8 relative overflow-hidden font-sans selection:bg-emerald-500 selection:text-white">
+        <div className="min-h-screen flex items-center justify-center bg-[#030014] px-4 py-8 relative overflow-hidden font-sans selection:bg-emerald-500 selection:text-white">
             
-            {/* Animated Glow Elements jo video jaisa feel denge */}
-            <div className="absolute -top-20 -left-20 w-96 h-96 bg-emerald-500/15 rounded-full blur-[120px] animate-wave pointer-events-none"></div>
-            <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-blue-600/15 rounded-full blur-[120px] animate-wave pointer-events-none [animation-delay:3s]"></div>
+            {/* --- Animated Glowing Background Layers (Yeh video jaisa feel denge) --- */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                {/* Top-Left Blue Moving Glow */}
+                <div className="absolute -top-24 -left-24 w-[450px] h-[450px] bg-blue-600/30 rounded-full blur-[140px] glow-orb-1"></div>
+                
+                {/* Bottom-Right Purple Moving Glow */}
+                <div className="absolute -bottom-24 -right-24 w-[450px] h-[450px] bg-purple-600/30 rounded-full blur-[140px] glow-orb-2"></div>
+                
+                {/* Center-Screen Emerald/Green Accent Glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-emerald-500/20 rounded-full blur-[130px] glow-orb-3"></div>
+            </div>
 
             {/* Glassmorphism Card */}
-            <div className="max-w-md w-full bg-slate-900/80 border border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-2xl relative z-10">
+            <div className="max-w-md w-full bg-slate-900/75 border border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-2xl relative z-10">
                 <div className="text-center mb-6 sm:mb-8">
                     <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                         ExpenseAI<span className="text-emerald-500">.</span>
