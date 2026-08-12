@@ -25,15 +25,14 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#030014] px-4 py-8 relative overflow-hidden font-sans selection:bg-emerald-500 selection:text-white">
+        <div className="min-h-screen flex items-center justify-center video-bg-glow px-4 py-8 relative overflow-hidden font-sans selection:bg-emerald-500 selection:text-white">
             
-            {/* Animated Background Glowing Elements */}
-            <div className="absolute top-12 left-12 w-80 h-80 rounded-full bg-blue-600/30 blur-[130px] blob-1 pointer-events-none"></div>
-            <div className="absolute bottom-12 right-12 w-80 h-80 rounded-full bg-purple-600/30 blur-[130px] blob-2 pointer-events-none"></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-emerald-600/20 blur-[140px] blob-3 pointer-events-none"></div>
+            {/* Animated Glow Elements jo video jaisa feel denge */}
+            <div className="absolute -top-20 -left-20 w-96 h-96 bg-emerald-500/15 rounded-full blur-[120px] animate-wave pointer-events-none"></div>
+            <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-blue-600/15 rounded-full blur-[120px] animate-wave pointer-events-none [animation-delay:3s]"></div>
 
             {/* Glassmorphism Card */}
-            <div className="max-w-md w-full bg-slate-900/70 border border-slate-800/60 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-2xl relative z-10">
+            <div className="max-w-md w-full bg-slate-900/80 border border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-2xl relative z-10">
                 <div className="text-center mb-6 sm:mb-8">
                     <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                         ExpenseAI<span className="text-emerald-500">.</span>

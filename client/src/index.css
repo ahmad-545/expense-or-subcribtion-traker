@@ -7,29 +7,23 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom Animation Keyframes for Smooth Glowing Blobs */
-@keyframes floatBlob {
-  0%, 100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(40px, -50px) scale(1.1);
-  }
-  66% {
-    transform: translate(-30px, 30px) scale(0.9);
-  }
+/* Video jaisa glowing moving background effect */
+.video-bg-glow {
+  background-color: #030014;
+  background-image: 
+    radial-gradient(at 10% 20%, rgba(16, 185, 129, 0.25) 0px, transparent 50%),
+    radial-gradient(at 90% 80%, rgba(37, 99, 235, 0.25) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(147, 51, 233, 0.2) 0px, transparent 60%);
+  position: relative;
 }
 
-.blob-1 {
-  animation: floatBlob 8s infinite ease-in-out;
+/* Smooth floating animation */
+@keyframes waveMove {
+  0% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-15px) scale(1.03); }
+  100% { transform: translateY(0px) scale(1); }
 }
 
-.blob-2 {
-  animation: floatBlob 10s infinite ease-in-out;
-  animation-delay: 3s;
-}
-
-.blob-3 {
-  animation: floatBlob 12s infinite ease-in-out;
-  animation-delay: 6s;
+.animate-wave {
+  animation: waveMove 6s ease-in-out infinite;
 }
