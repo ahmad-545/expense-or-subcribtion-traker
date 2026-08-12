@@ -6,30 +6,3 @@ body {
   padding: 0;
   overflow-x: hidden;
 }
-
-/* Smooth continuous glowing light movement */
-@keyframes floatSlow {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  50% {
-    transform: translate(40px, -50px) scale(1.15);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-}
-
-.glow-orb-1 {
-  animation: floatSlow 8s ease-in-out infinite;
-}
-
-.glow-orb-2 {
-  animation: floatSlow 12s ease-in-out infinite;
-  animation-delay: -4s;
-}
-
-.glow-orb-3 {
-  animation: floatSlow 10s ease-in-out infinite;
-  animation-delay: -2s;
-}
