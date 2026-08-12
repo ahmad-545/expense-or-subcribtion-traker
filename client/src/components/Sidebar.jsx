@@ -39,7 +39,7 @@ export default function Sidebar() {
 
     return (
         <>
-            {/* Mobile Sticky Top Header */}
+            {/* Mobile Sticky Top Header - Now fully fixed on top during scroll */}
             <div className="md:hidden flex items-center justify-between bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 py-3 text-white sticky top-0 z-50 w-full shadow-md">
                 <div className="flex items-center gap-2.5">
                     <LogoMark size={30} />
@@ -61,7 +61,7 @@ export default function Sidebar() {
                 />
             )}
 
-            {/* Sidebar Drawer - Fixed sticky height for desktop */}
+            {/* Sidebar Drawer */}
             <aside className={`
                 fixed md:sticky top-0 left-0 z-50 h-screen w-64 bg-slate-900/95 backdrop-blur-xl border-r border-slate-800/80 flex flex-col justify-between
                 transition-transform duration-300 ease-in-out shadow-2xl md:shadow-none flex-shrink-0
