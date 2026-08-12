@@ -39,8 +39,8 @@ export default function Sidebar() {
 
     return (
         <>
-            {/* Mobile Sticky Top Header - Now fully fixed on top during scroll */}
-            <div className="md:hidden flex items-center justify-between bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 py-3 text-white sticky top-0 z-50 w-full shadow-md">
+            {/* Mobile Sticky Top Header */}
+            <div className="md:hidden flex items-center justify-between bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 py-3 text-white sticky top-0 z-50 w-full shadow-md flex-shrink-0">
                 <div className="flex items-center gap-2.5">
                     <LogoMark size={30} />
                     <h1 className="text-lg font-bold tracking-wide">ExpenseAI<span className="text-emerald-400">.</span></h1>

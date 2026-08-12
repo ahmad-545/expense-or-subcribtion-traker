@@ -64,7 +64,7 @@ export default function Navbar() {
     };
 
     return (
-        <header className="bg-slate-900/95 backdrop-blur-md border-b border-slate-800/80 h-16 flex items-center justify-between px-4 sm:px-6 text-white sticky top-0 z-40 shadow-sm w-full flex-shrink-0">
+        <header className="relative bg-slate-900/95 backdrop-blur-md border-b border-slate-800/80 h-16 flex items-center justify-between px-4 sm:px-6 text-white sticky top-0 z-40 shadow-sm w-full flex-shrink-0">
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent" />
 
             {/* Dynamic Page Title & Live Indicator */}

@@ -77,9 +77,9 @@ export default function DashboardContent() {
     ];
 
     return (
-        <div className="relative min-h-screen w-full bg-[#030814] text-slate-100 overflow-x-hidden">
+        <div className="relative w-full bg-[#030814] text-slate-100 p-4 sm:p-6 md:p-8">
             {/* AMBIENT BACKGROUND */}
-            <div className="pointer-events-none fixed inset-0 overflow-hidden opacity-70">
+            <div className="pointer-events-none fixed inset-0 overflow-hidden opacity-70 z-0">
                 <div className="glow-animation absolute -left-40 -top-40 h-[400px] w-[400px] rounded-full bg-emerald-500/[0.06] blur-[130px]" />
                 <div
                     className="glow-animation absolute -bottom-40 -right-40 h-[400px] w-[400px] rounded-full bg-cyan-500/[0.06] blur-[130px]"
@@ -87,7 +87,7 @@ export default function DashboardContent() {
                 />
             </div>
 
-            <div className="relative z-10 p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 max-w-7xl mx-auto w-full">
+            <div className="relative z-10 space-y-6 md:space-y-8 max-w-7xl mx-auto w-full pb-12">
                 {/* Top Action Bar */}
                 <div className="animate-fade-in-up flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
