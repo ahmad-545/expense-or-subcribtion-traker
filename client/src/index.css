@@ -4,6 +4,14 @@
   box-sizing: border-box;
 }
 
+/* FIX: html needs an explicit height for any %-based height on its
+   children (body, #root) to actually resolve to something. Without this,
+   "min-height: 100%" on body can silently collapse to 0 in some layouts,
+   which is the usual reason a full-page dark background "disappears". */
+html {
+  height: 100%;
+}
+
 html,
 body,
 #root {

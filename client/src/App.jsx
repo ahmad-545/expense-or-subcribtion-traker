@@ -12,15 +12,15 @@ import Budgets from './pages/Budgets';
 
 const ProtectedRoute = ({ children }) => {
     const { user, loading } = useContext(AuthContext);
-    
+
     if (loading) {
         return (
-            <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+            <div className="min-h-screen bg-[#030814] text-white flex items-center justify-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div>
             </div>
         );
     }
-    
+
     return user ? children : <Navigate to="/login" />;
 };
 
