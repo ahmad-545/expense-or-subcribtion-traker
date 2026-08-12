@@ -1,141 +1,388 @@
-import { useState, useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
-import { Lock, Mail, ArrowRight, TrendingUp, DollarSign, Target, PieChart, Zap } from 'lucide-react';
+import { useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { useNavigate, Link } from "react-router-dom";
 
-// Custom simple float animation class defined directly in JSX style prop for safety
-const floatAnimation = {
-  animation: 'float 6s ease-in-out infinite',
-};
+import {
+  Lock,
+  Mail,
+  ArrowRight,
+  TrendingUp,
+  DollarSign,
+  Target,
+  PieChart,
+  Zap,
+  Plus,
+  Sparkles,
+} from "lucide-react";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+
+    setError("");
     setLoading(true);
-    const res = await login(email, password);
-    setLoading(false);
-    if (res.success) {
-      navigate('/');
-    } else {
-      setError(res.message);
+
+    try {
+      const res = await login(email, password);
+
+      if (res.success) {
+        navigate("/");
+      } else {
+        setError(res.message);
+      }
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#030014] px-4 py-8 relative overflow-hidden font-sans selection:bg-emerald-500 selection:text-white">
+    <main className="relative min-h-screen overflow-hidden bg-[#030814] px-4 py-8 font-sans">
       
-      {/* --- Inline Keyframes for Animation (Self-contained for Vercel safety) --- */}
-      <style>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(5deg); }
-        }
-      `}</style>
+      {/* ================= BACKGROUND ================= */}
 
-      {/* --- Background Animation Layers (Video Style) --- */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-        {/* Large Glowing Gradient Blobs */}
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[150px] animate-pulse"></div>
-        <div className="absolute -bottom-40 -right-40 w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[150px] animate-pulse [animation-delay:2s]"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[140px]"></div>
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
 
-        {/* Background Grid Overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f293712_1px,transparent_1px),linear-gradient(to_bottom,#1f293712_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+        {/* Glow - Top Left */}
+        <div className="glow-animation absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-emerald-500/10 blur-[140px]" />
 
-        {/* --- Floating Animated Icons (Finance Symbols) --- */}
-        {/* Symbol 1: Trending Up (Green) */}
-        <div className="absolute top-20 left-[10%] text-emerald-500/30" style={floatAnimation}>
-          <TrendingUp size={64} strokeWidth={1.5} />
-        </div>
-        
-        {/* Symbol 2: Dollar Sign (Blue) */}
-        <div className="absolute bottom-32 right-[12%] text-blue-500/30" style={{ ...floatAnimation, animationDelay: '1.5s' }}>
-          <DollarSign size={72} strokeWidth={1} />
-        </div>
+        {/* Glow - Bottom Right */}
+        <div
+          className="glow-animation absolute -bottom-40 -right-40 h-[500px] w-[500px] rounded-full bg-cyan-500/10 blur-[140px]"
+          style={{ animationDelay: "2s" }}
+        />
 
-        {/* Symbol 3: Target/Goal (Purple) */}
-        <div className="absolute top-1/3 right-[25%] text-purple-500/20" style={{ ...floatAnimation, animationDelay: '3s' }}>
-          <Target size={50} strokeWidth={2} />
+        {/* Center Glow */}
+        <div className="absolute left-1/2 top-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/[0.03] blur-[120px]" />
+
+        {/* ================= TOP LEFT CURVES ================= */}
+
+        <div className="absolute left-0 top-0 h-[300px] w-[360px] opacity-60">
+
+          <div className="absolute -left-24 -top-24 h-[300px] w-[500px] rotate-[15deg] rounded-full border border-emerald-400/20" />
+
+          <div className="absolute -left-16 -top-16 h-[250px] w-[420px] rotate-[15deg] rounded-full border border-cyan-400/10" />
+
+          <span className="absolute left-[100px] top-[100px] h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.8)]" />
+
+          <span className="absolute left-[155px] top-[135px] h-1.5 w-1.5 rounded-full bg-cyan-400" />
+
+          <span className="absolute left-[210px] top-[165px] h-1 w-1 rounded-full bg-emerald-300" />
+
         </div>
 
-        {/* Symbol 4: Pie Chart (Emerald/Blue) */}
-        <div className="absolute bottom-20 left-[20%] text-emerald-500/20" style={{ ...floatAnimation, animationDelay: '4.5s' }}>
-          <PieChart size={56} strokeWidth={1.5} />
+        {/* ================= BOTTOM RIGHT CURVES ================= */}
+
+        <div className="absolute bottom-0 right-0 h-[320px] w-[400px] opacity-60">
+
+          <div className="absolute -bottom-36 -right-28 h-[300px] w-[520px] rotate-[-18deg] rounded-full border border-emerald-400/20" />
+
+          <div className="absolute -bottom-24 -right-16 h-[250px] w-[440px] rotate-[-18deg] rounded-full border border-cyan-400/10" />
+
+          <span className="absolute bottom-[100px] right-[90px] h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.8)]" />
+
+          <span className="absolute bottom-[140px] right-[145px] h-1.5 w-1.5 rounded-full bg-cyan-400" />
+
         </div>
 
-        {/* Symbol 5: Zap/Alert (Blue/White) */}
-        <div className="absolute top-1/4 left-[40%] text-blue-400/15" style={{ ...floatAnimation, animationDelay: '0.5s' }}>
-          <Zap size={40} strokeWidth={2} />
+        {/* ================= DOT PATTERN ================= */}
+
+        <div
+          className="absolute right-8 top-8 h-32 w-32 opacity-30"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, rgba(45,212,191,0.6) 1px, transparent 1px)",
+            backgroundSize: "14px 14px",
+          }}
+        />
+
+        <div
+          className="absolute bottom-8 left-8 h-32 w-32 opacity-20"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, rgba(45,212,191,0.6) 1px, transparent 1px)",
+            backgroundSize: "14px 14px",
+          }}
+        />
+
+        {/* ================= PLUS SYMBOLS ================= */}
+
+        <Plus
+          size={14}
+          className="absolute left-[15%] top-[20%] text-emerald-400/30"
+        />
+
+        <Plus
+          size={12}
+          className="absolute left-[28%] top-[35%] text-cyan-400/20"
+        />
+
+        <Plus
+          size={14}
+          className="absolute bottom-[25%] right-[20%] text-emerald-400/25"
+        />
+
+        <Plus
+          size={12}
+          className="absolute bottom-[18%] right-[12%] text-cyan-400/25"
+        />
+
+        {/* ================= FLOATING ICONS ================= */}
+
+        <div className="float-animation absolute left-[10%] top-[18%] text-emerald-400/25">
+          <TrendingUp size={58} strokeWidth={1.2} />
         </div>
+
+        <div
+          className="float-animation absolute bottom-[20%] right-[10%] text-cyan-400/25"
+          style={{ animationDelay: "1.5s" }}
+        >
+          <DollarSign size={68} strokeWidth={1} />
+        </div>
+
+        <div
+          className="float-animation absolute right-[18%] top-[30%] text-purple-400/15"
+          style={{ animationDelay: "2.5s" }}
+        >
+          <Target size={50} strokeWidth={1.5} />
+        </div>
+
+        <div
+          className="float-animation absolute bottom-[18%] left-[17%] text-emerald-400/20"
+          style={{ animationDelay: "3.5s" }}
+        >
+          <PieChart size={54} strokeWidth={1.2} />
+        </div>
+
+        <div
+          className="float-animation absolute left-[35%] top-[25%] text-cyan-300/15"
+          style={{ animationDelay: "1s" }}
+        >
+          <Zap size={38} strokeWidth={1.5} />
+        </div>
+
       </div>
 
-      {/* --- Glassmorphism Card --- */}
-      <div className="max-w-md w-full bg-slate-900/70 border border-slate-800/70 rounded-[32px] p-10 shadow-2xl backdrop-blur-3xl relative z-10">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-extrabold text-white tracking-tighter">
-            ExpenseAI<span className="text-emerald-500">.</span>
-          </h1>
-          <p className="text-slate-400 text-sm mt-2">Welcome back! Please enter your details.</p>
+      {/* ================= LOGIN CARD ================= */}
+
+      <div className="relative z-10 flex min-h-[calc(100vh-4rem)] items-center justify-center">
+
+        <div className="relative w-full max-w-md">
+
+          {/* Card Glow */}
+          <div className="absolute -inset-1 rounded-[32px] bg-emerald-500/10 blur-xl" />
+
+          {/* Card */}
+          <div className="relative rounded-[32px] border border-slate-700/60 bg-slate-900/80 p-7 shadow-2xl shadow-black/50 backdrop-blur-2xl sm:p-10">
+
+            {/* Top Line */}
+            <div className="absolute left-1/2 top-0 h-px w-40 -translate-x-1/2 bg-gradient-to-r from-transparent via-emerald-400/60 to-transparent" />
+
+            {/* ================= LOGO ================= */}
+
+            <div className="logo-animation relative mx-auto mb-5 flex h-16 w-16 items-center justify-center">
+
+              <div className="absolute inset-0 rounded-2xl bg-emerald-400/20 blur-xl" />
+
+              <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-emerald-400/20 bg-slate-800 shadow-lg shadow-emerald-500/10">
+
+                <svg
+                  width="42"
+                  height="42"
+                  viewBox="0 0 42 42"
+                  fill="none"
+                >
+                  <rect
+                    x="7"
+                    y="23"
+                    width="5"
+                    height="11"
+                    rx="1"
+                    fill="#10B981"
+                  />
+
+                  <rect
+                    x="16"
+                    y="17"
+                    width="5"
+                    height="17"
+                    rx="1"
+                    fill="#14B8A6"
+                  />
+
+                  <rect
+                    x="25"
+                    y="10"
+                    width="5"
+                    height="24"
+                    rx="1"
+                    fill="#22C55E"
+                  />
+
+                  <path
+                    d="M7 19L14 15L20 17L30 7L35 10"
+                    stroke="#2DD4BF"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+
+                  <path
+                    d="M30 7H35V12"
+                    stroke="#2DD4BF"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+
+              </div>
+
+              <Sparkles
+                size={14}
+                className="absolute -right-2 -top-2 text-emerald-300"
+              />
+
+            </div>
+
+            {/* ================= TITLE ================= */}
+
+            <div className="mb-8 text-center">
+
+              <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                Expense
+                <span className="text-emerald-400">AI.</span>
+              </h1>
+
+              <p className="mt-2 text-sm text-slate-400">
+                Welcome back! Please enter your details.
+              </p>
+
+            </div>
+
+            {/* ================= ERROR ================= */}
+
+            {error && (
+              <div className="mb-6 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-400">
+                {error}
+              </div>
+            )}
+
+            {/* ================= FORM ================= */}
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+
+              {/* Email */}
+
+              <div>
+
+                <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-300">
+                  Email Address
+                </label>
+
+                <div className="group relative">
+
+                  <Mail
+                    size={19}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 transition-colors group-focus-within:text-emerald-400"
+                  />
+
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    placeholder="name@example.com"
+                    className="w-full rounded-2xl border border-slate-700 bg-slate-950/80 py-3.5 pl-12 pr-5 text-white outline-none transition duration-300 placeholder:text-slate-600 focus:border-emerald-500/70 focus:ring-2 focus:ring-emerald-500/10"
+                  />
+
+                </div>
+
+              </div>
+
+              {/* Password */}
+
+              <div>
+
+                <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-300">
+                  Password
+                </label>
+
+                <div className="group relative">
+
+                  <Lock
+                    size={19}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 transition-colors group-focus-within:text-emerald-400"
+                  />
+
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    placeholder="••••••••"
+                    className="w-full rounded-2xl border border-slate-700 bg-slate-950/80 py-3.5 pl-12 pr-5 text-white outline-none transition duration-300 placeholder:text-slate-600 focus:border-emerald-500/70 focus:ring-2 focus:ring-emerald-500/10"
+                  />
+
+                </div>
+
+              </div>
+
+              {/* Button */}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="group relative mt-6 flex w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-emerald-500 py-4 font-bold text-white shadow-lg shadow-emerald-500/20 transition-all duration-300 hover:bg-emerald-400 hover:shadow-emerald-500/30 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+
+                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+
+                <span className="relative">
+                  {loading ? "Signing in..." : "Sign In"}
+                </span>
+
+                {!loading && (
+                  <ArrowRight
+                    size={18}
+                    className="relative transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                )}
+
+              </button>
+
+            </form>
+
+            {/* ================= REGISTER ================= */}
+
+            <p className="mt-8 text-center text-sm text-slate-400">
+
+              Don't have an account?{" "}
+
+              <Link
+                to="/register"
+                className="font-semibold text-emerald-400 transition hover:text-emerald-300 hover:underline"
+              >
+                Create account
+              </Link>
+
+            </p>
+
+          </div>
+
         </div>
 
-        {error && (
-          <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-4 rounded-2xl mb-6 text-sm">
-            {error}
-          </div>
-        )}
-        
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block text-slate-300 text-xs font-bold mb-2 uppercase tracking-wider">Email Address</label>
-            <div className="relative">
-              <Mail className="absolute left-4.5 top-3.5 text-slate-500" size={20} />
-              <input 
-                type="email" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
-                required 
-                placeholder="name@example.com"
-                className="w-full pl-12 pr-5 py-3.5 bg-slate-950/80 border border-slate-700 rounded-2xl text-white text-base focus:outline-none focus:border-emerald-500 transition duration-200"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-slate-300 text-xs font-bold mb-2 uppercase tracking-wider">Password</label>
-            <div className="relative">
-              <Lock className="absolute left-4.5 top-3.5 text-slate-500" size={20} />
-              <input 
-                type="password" 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-                required 
-                placeholder="••••••••"
-                className="w-full pl-12 pr-5 py-3.5 bg-slate-950/80 border border-slate-700 rounded-2xl text-white text-base focus:outline-none focus:border-emerald-500 transition duration-200"
-              />
-            </div>
-          </div>
-
-          <button 
-            type="submit" 
-            disabled={loading}
-            className="w-full mt-6 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-2xl transition duration-200 flex items-center justify-center gap-2.5 shadow-lg shadow-emerald-500/20 text-base disabled:opacity-50"
-          >
-            {loading ? 'Signing in...' : 'Sign In'} <ArrowRight size={18} />
-          </button>
-        </form>
-
-        <p className="text-slate-400 text-center text-sm mt-8">
-          Don't have an account? <Link to="/register" className="text-emerald-400 hover:underline font-semibold">Create account</Link>
-        </p>
       </div>
-    </div>
+
+    </main>
   );
 }
