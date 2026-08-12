@@ -1,35 +1,35 @@
 @import "tailwindcss";
 
-@layer base {
-  body {
-    background-color: #030014;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-  }
+body {
+  background-color: #030014;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
-/* Custom Smooth Blob Animation */
+/* Custom Animation Keyframes for Smooth Glowing Blobs */
 @keyframes floatBlob {
   0%, 100% {
     transform: translate(0px, 0px) scale(1);
   }
   33% {
-    transform: translate(50px, -60px) scale(1.1);
+    transform: translate(40px, -50px) scale(1.1);
   }
   66% {
-    transform: translate(-40px, 40px) scale(0.9);
+    transform: translate(-30px, 30px) scale(0.9);
   }
 }
 
-.animate-blob-slow {
-  animation: floatBlob 9s infinite ease-in-out;
+.blob-1 {
+  animation: floatBlob 8s infinite ease-in-out;
 }
 
-.animation-delay-2000 {
+.blob-2 {
+  animation: floatBlob 10s infinite ease-in-out;
   animation-delay: 3s;
 }
 
-.animation-delay-4000 {
+.blob-3 {
+  animation: floatBlob 12s infinite ease-in-out;
   animation-delay: 6s;
 }
