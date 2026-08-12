@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 export const register = async (req, res) => {
     try {
-        const { name, email, password, phone, monthlyIncome, savingGoal } = req.body;
+        const { name, email, password, monthlyIncome, savingGoal } = req.body;
         
         // Check if user already exists
         const existingUser = await User.findOne({ email });
@@ -19,9 +19,8 @@ export const register = async (req, res) => {
             name, 
             email, 
             password: hashedPassword, 
-            phone, // WhatsApp phone number saved
-            monthlyIncome, 
-            savingGoal 
+            monthlyIncome: Number(monthlyIncome) || 0, 
+            savingGoal: Number(savingGoal) || 0 
         });
 
         res.status(201).json({ message: "User registered successfully", userId: newUser._id });
@@ -41,10 +40,16 @@ export const login = async (req, res) => {
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
         
-        // Response mein phone bhi return kar diya hai taake frontend par session mein save ho sake
+        // Response mein monthlyIncome aur savingGoal bhi return kar diye hain taake frontend par dashboard mein foran show hon
         res.json({ 
             token, 
-            user: { id: user._id, name: user.name, email: user.email, phone: user.phone } 
+            user: { 
+                id: user._id, 
+                name: user.name, 
+                email: user.email, 
+                monthlyIncome: user.monthlyIncome, 
+                savingGoal: user.savingGoal 
+            } 
         });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -58,14 +63,15 @@ export const logout = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
 export const updateProfile = async (req, res) => {
     try {
         const userId = req.user.id;
-        const { monthlyIncome, savingGoal, phone } = req.body;
+        const { monthlyIncome, savingGoal, email } = req.body;
 
         const updatedUser = await User.findByIdAndUpdate(
             userId,
-            { monthlyIncome, savingGoal, phone },
+            { monthlyIncome: Number(monthlyIncome) || 0, savingGoal: Number(savingGoal) || 0, email },
             { new: true }
         );
 
@@ -79,7 +85,6 @@ export const updateProfile = async (req, res) => {
                 id: updatedUser._id, 
                 name: updatedUser.name, 
                 email: updatedUser.email, 
-                phone: updatedUser.phone, 
                 monthlyIncome: updatedUser.monthlyIncome,
                 savingGoal: updatedUser.savingGoal 
             } 

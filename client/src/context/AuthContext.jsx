@@ -28,21 +28,29 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const register = async (name, email, password, phone, monthlyIncome, savingGoal) => {
+    // Phone parameter hata diya gaya hai kyunki ab hum email use kar rahe hain
+    const register = async (name, email, password, monthlyIncome, savingGoal) => {
         try {
-            await API.post('/auth/register', { name, email, password, phone, monthlyIncome, savingGoal });
+            await API.post('/auth/register', { 
+                name, 
+                email, 
+                password, 
+                monthlyIncome: Number(monthlyIncome) || 0, 
+                savingGoal: Number(savingGoal) || 0 
+            });
             return { success: true };
         } catch (err) {
             return { success: false, message: err.response?.data?.error || err.response?.data?.message || "Registration failed" };
         }
     };
 
-    const updateProfile = async (monthlyIncome, savingGoal, phone) => {
+    // Phone ki jagah email kar diya gaya hai
+    const updateProfile = async (monthlyIncome, savingGoal, email) => {
         try {
             const { data } = await API.put('/auth/update-profile', { 
-                monthlyIncome: Number(monthlyIncome), 
-                savingGoal: Number(savingGoal), 
-                phone 
+                monthlyIncome: Number(monthlyIncome) || 0, 
+                savingGoal: Number(savingGoal) || 0, 
+                email 
             });
             localStorage.setItem('user', JSON.stringify(data.user));
             setUser(data.user);
