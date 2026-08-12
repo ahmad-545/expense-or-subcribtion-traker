@@ -23,7 +23,7 @@ export default function Sidebar() {
     ];
 
     const LogoMark = ({ size = 34 }) => (
-        <div className="logo-animation relative flex items-center justify-center" style={{ width: size, height: size }}>
+        <div className="logo-animation relative flex items-center justify-center flex-shrink-0" style={{ width: size, height: size }}>
             <div className="absolute inset-0 rounded-xl bg-emerald-400/20 blur-md" />
             <div className="relative flex h-full w-full items-center justify-center rounded-xl border border-emerald-400/20 bg-slate-800">
                 <svg width={size * 0.62} height={size * 0.62} viewBox="0 0 42 42" fill="none">
@@ -64,13 +64,11 @@ export default function Sidebar() {
             {/* Sidebar Drawer */}
             <aside className={`
                 fixed md:sticky top-0 left-0 z-50 h-screen w-64 bg-slate-900/95 backdrop-blur-xl border-r border-slate-800/80 flex flex-col justify-between
-                transition-transform duration-300 ease-in-out shadow-2xl md:shadow-none relative overflow-hidden
+                transition-transform duration-300 ease-in-out shadow-2xl md:shadow-none flex-shrink-0
                 ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
             `}>
-                {/* Ambient glow, matches login/register accent */}
                 <div className="pointer-events-none absolute -left-20 top-0 h-64 w-64 rounded-full bg-emerald-500/10 blur-[100px]" />
                 <div className="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-cyan-500/10 blur-[100px]" />
-                {/* Edge accent line */}
                 <div className="pointer-events-none absolute right-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-emerald-400/30 to-transparent" />
 
                 <div className="relative z-10">

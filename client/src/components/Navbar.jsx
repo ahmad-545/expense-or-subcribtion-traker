@@ -9,7 +9,6 @@ export default function Navbar() {
     const [showNotifications, setShowNotifications] = useState(false);
     const dropdownRef = useRef(null);
 
-    // Get current page name dynamically based on route path
     const getPageTitle = () => {
         switch (location.pathname) {
             case '/': return 'Dashboard Overview';
@@ -22,7 +21,6 @@ export default function Navbar() {
         }
     };
 
-    // Initial static + dynamic notifications load karna
     const [notifications, setNotifications] = useState(() => {
         const savedNotifs = JSON.parse(localStorage.getItem('app_notifications') || '[]');
         return [
@@ -66,23 +64,22 @@ export default function Navbar() {
     };
 
     return (
-        <header className="relative bg-slate-900/85 backdrop-blur-md border-b border-slate-800/80 h-16 flex items-center justify-between px-4 sm:px-6 text-white sticky top-0 z-40 shadow-sm">
-            {/* Subtle bottom accent line, echoes login/register card top line */}
+        <header className="relative bg-slate-900/85 backdrop-blur-md border-b border-slate-800/80 h-16 flex items-center justify-between px-4 sm:px-6 text-white sticky top-0 z-40 shadow-sm w-full">
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent" />
 
             {/* Dynamic Page Title & Live Indicator */}
-            <div className="flex items-center gap-2.5 sm:gap-3">
-                <span className="relative flex h-2.5 w-2.5">
+            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 pr-2">
+                <span className="relative flex h-2.5 w-2.5 flex-shrink-0">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60"></span>
                     <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
                 </span>
-                <h2 className="text-xs sm:text-sm md:text-base font-bold text-slate-200 tracking-wide truncate max-w-[180px] sm:max-w-none">
+                <h2 className="text-xs sm:text-sm md:text-base font-bold text-slate-200 tracking-wide truncate">
                     {getPageTitle()}
                 </h2>
             </div>
 
-            <div className="flex items-center gap-3 sm:gap-4">
-                {/* Notification Bell with Badge and Popup */}
+            <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+                {/* Notification Bell */}
                 <div className="relative" ref={dropdownRef}>
                     <button
                         onClick={() => setShowNotifications(!showNotifications)}
@@ -90,7 +87,6 @@ export default function Navbar() {
                         title="Notifications"
                     >
                         <Bell size={18} className="hover-wiggle" />
-
                         {notifications.length > 0 && (
                             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-md shadow-red-500/50 animate-pulse">
                                 {notifications.length}
@@ -114,13 +110,13 @@ export default function Navbar() {
                                             style={{ animationDelay: `${index * 60}ms` }}
                                             className="animate-fade-in-up p-3.5 hover:bg-slate-800/40 transition-colors duration-300 cursor-pointer flex gap-3 items-start"
                                         >
-                                            <div className="mt-0.5">
+                                            <div className="mt-0.5 flex-shrink-0">
                                                 {item.type === 'warning' && <AlertTriangle size={16} className="text-amber-400" />}
                                                 {item.type === 'success' && <CheckCircle size={16} className="text-emerald-400" />}
                                                 {item.type === 'info' && <Info size={16} className="text-blue-400" />}
                                             </div>
-                                            <div className="flex-1">
-                                                <p className="text-xs font-semibold text-slate-200">{item.title}</p>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-xs font-semibold text-slate-200 truncate">{item.title}</p>
                                                 <p className="text-xs text-slate-400 mt-0.5">{item.desc}</p>
                                                 <span className="text-[10px] text-slate-500 mt-1 block font-medium">{item.time}</span>
                                             </div>
@@ -140,7 +136,7 @@ export default function Navbar() {
                     )}
                 </div>
 
-                {/* Settings / Profile Link */}
+                {/* Settings Link */}
                 <Link
                     to="/profile"
                     className="group p-2.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-emerald-500/40 hover:bg-slate-800 text-slate-300 hover:text-emerald-400 transition-all duration-300 shadow-sm active:scale-90"
@@ -150,7 +146,7 @@ export default function Navbar() {
                 </Link>
 
                 {/* User Avatar */}
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center font-bold text-white shadow-md shadow-emerald-500/20 border border-emerald-500/30 transition-transform duration-300 hover:scale-105">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center font-bold text-white shadow-md shadow-emerald-500/20 border border-emerald-500/30 flex-shrink-0">
                     {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
                 </div>
             </div>

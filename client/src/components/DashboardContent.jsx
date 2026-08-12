@@ -38,7 +38,6 @@ export default function DashboardContent() {
 
     const totalExpenses = expenses.reduce((acc, curr) => acc + curr.amount, 0);
 
-    // Prepare data for Area Chart (Group by Date)
     const chartData = expenses.reduce((acc, curr) => {
         const date = new Date(curr.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         const found = acc.find(item => item.date === date);
@@ -50,7 +49,6 @@ export default function DashboardContent() {
         return acc;
     }, []).sort((a, b) => new Date(a.date) - new Date(b.date));
 
-    // Prepare data for Category Breakdown with Percentages
     const categoryDataUnprocessed = expenses.reduce((acc, curr) => {
         const found = acc.find(item => item.name === curr.category);
         if (found) {
@@ -66,14 +64,11 @@ export default function DashboardContent() {
         percentage: totalExpenses > 0 ? Math.round((item.value / totalExpenses) * 100) : 0
     }));
 
-    // Calculate spent per category for Budget Overview
     const categorySpent = expenses.reduce((acc, curr) => {
         acc[curr.category] = (acc[curr.category] || 0) + curr.amount;
         return acc;
     }, {});
 
-    // Config array purely for rendering the 4 stat cards with a stagger delay -
-    // does not change what StatCard receives.
     const statCards = [
         { title: "Total Balance", value: `Rs. ${(user?.monthlyIncome || 0) - totalExpenses}`, icon: DollarSign, colorClass: "text-emerald-400", trend: "Available funds" },
         { title: "Monthly Expenses", value: `Rs. ${totalExpenses}`, icon: Wallet, colorClass: "text-blue-400", trend: "Total spent" },
@@ -82,34 +77,28 @@ export default function DashboardContent() {
     ];
 
     return (
-        <div className="relative min-h-screen w-full bg-[#030814] text-slate-100">
-            {/* ================= AMBIENT BACKGROUND ================= */}
+        <div className="relative min-h-screen w-full bg-[#030814] text-slate-100 overflow-x-hidden">
+            {/* AMBIENT BACKGROUND */}
             <div className="pointer-events-none fixed inset-0 overflow-hidden opacity-70">
                 <div className="glow-animation absolute -left-40 -top-40 h-[400px] w-[400px] rounded-full bg-emerald-500/[0.06] blur-[130px]" />
                 <div
                     className="glow-animation absolute -bottom-40 -right-40 h-[400px] w-[400px] rounded-full bg-cyan-500/[0.06] blur-[130px]"
                     style={{ animationDelay: "2s" }}
                 />
-                <div className="float-animation absolute right-[6%] top-[10%] hidden text-emerald-400/[0.06] lg:block" style={{ animationDelay: "1s" }}>
-                    <TrendingUp size={90} strokeWidth={1} />
-                </div>
-                <div className="float-animation absolute left-[4%] bottom-[8%] hidden text-cyan-400/[0.06] lg:block" style={{ animationDelay: "3s" }}>
-                    <PieIcon size={80} strokeWidth={1} />
-                </div>
             </div>
 
-            <div className="relative z-10 p-4 md:p-8 space-y-8 max-w-7xl mx-auto w-full">
+            <div className="relative z-10 p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 max-w-7xl mx-auto w-full">
                 {/* Top Action Bar */}
-                <div className="animate-fade-in-up flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="animate-fade-in-up flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+                        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight break-words">
                             Welcome back, {user?.name || 'Ahmad'} <span className="animate-wave">👋</span>
                         </h1>
                         <p className="text-slate-400 text-sm mt-1">Here's your financial overview</p>
                     </div>
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="group relative flex items-center justify-center gap-2 overflow-hidden px-5 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-2xl transition-all duration-300 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 text-sm active:scale-95"
+                        className="group relative flex items-center justify-center gap-2 overflow-hidden px-5 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-2xl transition-all duration-300 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 text-sm active:scale-95 w-full sm:w-auto"
                     >
                         <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                         <Plus size={18} className="relative transition-transform duration-300 group-hover:rotate-90" />
@@ -151,12 +140,10 @@ export default function DashboardContent() {
                     ))}
                 </div>
 
-                {/* 4 Main Dashboard Sections */}
+                {/* Main Dashboard Grid Sections */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-                    {/* 1. Expense Overview (Donut Chart with Legend) */}
-                    <div className="animate-fade-in-up delay-100 group relative bg-slate-900/80 border border-slate-800/80 hover:border-emerald-500/30 rounded-2xl p-6 shadow-xl backdrop-blur-sm transition-colors duration-300 flex flex-col justify-between overflow-hidden">
-                        <div className="pointer-events-none absolute left-1/2 top-0 h-px w-32 -translate-x-1/2 bg-gradient-to-r from-transparent via-emerald-400/0 to-transparent transition-all duration-500 group-hover:via-emerald-400/60" />
+                    {/* 1. Expense Overview */}
+                    <div className="animate-fade-in-up delay-100 group relative bg-slate-900/80 border border-slate-800/80 hover:border-emerald-500/30 rounded-2xl p-4 sm:p-6 shadow-xl backdrop-blur-sm transition-colors duration-300 flex flex-col justify-between overflow-hidden">
                         <h3 className="text-base font-bold text-white mb-4">Expense Overview</h3>
                         {categoryData.length === 0 ? (
                             <div className="h-64 flex items-center justify-center text-slate-500 text-sm">No category data available.</div>
@@ -188,14 +175,14 @@ export default function DashboardContent() {
                                         <span className="text-sm font-bold text-white">Rs. {totalExpenses}</span>
                                     </div>
                                 </div>
-                                <div className="space-y-2">
+                                <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
                                     {categoryData.map((cat, idx) => (
                                         <div key={cat.name} className="flex items-center justify-between text-xs">
-                                            <div className="flex items-center gap-2">
-                                                <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[idx % COLORS.length] }}></span>
-                                                <span className="text-slate-300 font-medium">{cat.name}</span>
+                                            <div className="flex items-center gap-2 truncate pr-2">
+                                                <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: COLORS[idx % COLORS.length] }}></span>
+                                                <span className="text-slate-300 font-medium truncate">{cat.name}</span>
                                             </div>
-                                            <span className="text-slate-400 font-semibold">{cat.percentage}%</span>
+                                            <span className="text-slate-400 font-semibold flex-shrink-0">{cat.percentage}%</span>
                                         </div>
                                     ))}
                                 </div>
@@ -204,8 +191,7 @@ export default function DashboardContent() {
                     </div>
 
                     {/* 2. Upcoming Subscriptions Widget */}
-                    <div className="animate-fade-in-up delay-200 group relative bg-slate-900/80 border border-slate-800/80 hover:border-emerald-500/30 rounded-2xl p-6 shadow-xl backdrop-blur-sm transition-colors duration-300 flex flex-col justify-between overflow-hidden">
-                        <div className="pointer-events-none absolute left-1/2 top-0 h-px w-32 -translate-x-1/2 bg-gradient-to-r from-transparent via-emerald-400/0 to-transparent transition-all duration-500 group-hover:via-emerald-400/60" />
+                    <div className="animate-fade-in-up delay-200 group relative bg-slate-900/80 border border-slate-800/80 hover:border-emerald-500/30 rounded-2xl p-4 sm:p-6 shadow-xl backdrop-blur-sm transition-colors duration-300 flex flex-col justify-between overflow-hidden">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-base font-bold text-white">Upcoming Subscriptions</h3>
                             <span className="text-xs text-emerald-400 font-semibold cursor-pointer hover:underline">View All</span>
@@ -215,19 +201,19 @@ export default function DashboardContent() {
                         ) : (
                             <div className="space-y-3">
                                 {subscriptions.slice(0, 4).map((sub) => (
-                                    <div key={sub._id} className="flex items-center justify-between p-3 bg-slate-950/60 border border-slate-800/60 rounded-xl transition-colors duration-300 hover:border-emerald-500/30">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold">
+                                    <div key={sub._id} className="flex items-center justify-between p-3 bg-slate-950/60 border border-slate-800/60 rounded-xl transition-colors duration-300 hover:border-emerald-500/30 gap-2">
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold flex-shrink-0">
                                                 {sub.name.charAt(0)}
                                             </div>
-                                            <div>
-                                                <div className="font-semibold text-white text-sm">{sub.name}</div>
-                                                <div className="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
-                                                    <Calendar size={12} /> Renewal: {new Date(sub.renewalDate).toLocaleDateString()}
+                                            <div className="min-w-0">
+                                                <div className="font-semibold text-white text-sm truncate">{sub.name}</div>
+                                                <div className="text-xs text-slate-400 flex items-center gap-1 mt-0.5 truncate">
+                                                    <Calendar size={12} className="flex-shrink-0" /> <span className="truncate">Renewal: {new Date(sub.renewalDate).toLocaleDateString()}</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="text-right">
+                                        <div className="text-right flex-shrink-0">
                                             <div className="font-bold text-white text-sm">Rs. {sub.amount}</div>
                                             <div className="text-xs text-slate-500">{sub.billingCycle}</div>
                                         </div>
@@ -238,8 +224,7 @@ export default function DashboardContent() {
                     </div>
 
                     {/* 3. Monthly Expenses Trend */}
-                    <div className="animate-fade-in-up delay-300 group relative bg-slate-900/80 border border-slate-800/80 hover:border-emerald-500/30 rounded-2xl p-6 shadow-xl backdrop-blur-sm transition-colors duration-300 overflow-hidden">
-                        <div className="pointer-events-none absolute left-1/2 top-0 h-px w-32 -translate-x-1/2 bg-gradient-to-r from-transparent via-emerald-400/0 to-transparent transition-all duration-500 group-hover:via-emerald-400/60" />
+                    <div className="animate-fade-in-up delay-300 group relative bg-slate-900/80 border border-slate-800/80 hover:border-emerald-500/30 rounded-2xl p-4 sm:p-6 shadow-xl backdrop-blur-sm transition-colors duration-300 overflow-hidden">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-base font-bold text-white">Monthly Expenses Trend</h3>
                             <span className="text-xs bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-xl text-slate-300 font-medium">This Month</span>
@@ -268,22 +253,21 @@ export default function DashboardContent() {
                         )}
                     </div>
 
-                    {/* 4. Budget Overview (Progress Bars) */}
-                    <div className="animate-fade-in-up delay-400 group relative bg-slate-900/80 border border-slate-800/80 hover:border-emerald-500/30 rounded-2xl p-6 shadow-xl backdrop-blur-sm transition-colors duration-300 flex flex-col justify-between overflow-hidden">
-                        <div className="pointer-events-none absolute left-1/2 top-0 h-px w-32 -translate-x-1/2 bg-gradient-to-r from-transparent via-emerald-400/0 to-transparent transition-all duration-500 group-hover:via-emerald-400/60" />
+                    {/* 4. Budget Overview */}
+                    <div className="animate-fade-in-up delay-400 group relative bg-slate-900/80 border border-slate-800/80 hover:border-emerald-500/30 rounded-2xl p-4 sm:p-6 shadow-xl backdrop-blur-sm transition-colors duration-300 flex flex-col justify-between overflow-hidden">
                         <h3 className="text-base font-bold text-white mb-4">Budget Overview</h3>
                         {budgets.length === 0 ? (
                             <div className="h-64 flex items-center justify-center text-slate-500 text-sm">No budgets set yet.</div>
                         ) : (
-                            <div className="space-y-4">
+                            <div className="space-y-4 max-h-64 overflow-y-auto pr-1">
                                 {budgets.map((b) => {
                                     const spent = categorySpent[b.category] || 0;
                                     const percentage = Math.min(Math.round((spent / b.monthlyLimit) * 100), 100);
                                     return (
                                         <div key={b._id} className="space-y-1.5">
-                                            <div className="flex justify-between text-xs font-medium">
-                                                <span className="text-slate-200">{b.category}</span>
-                                                <span className="text-slate-400">Rs. {spent} / Rs. {b.monthlyLimit} ({percentage}%)</span>
+                                            <div className="flex justify-between text-xs font-medium gap-2">
+                                                <span className="text-slate-200 truncate">{b.category}</span>
+                                                <span className="text-slate-400 flex-shrink-0">Rs. {spent} / Rs. {b.monthlyLimit} ({percentage}%)</span>
                                             </div>
                                             <div className="w-full bg-slate-950 h-2.5 rounded-full overflow-hidden border border-slate-800">
                                                 <div
@@ -297,18 +281,16 @@ export default function DashboardContent() {
                             </div>
                         )}
                     </div>
-
                 </div>
 
                 {/* Recent Transactions Table */}
-                <div className="animate-fade-in-up delay-500 group relative bg-slate-900/80 border border-slate-800/80 hover:border-emerald-500/30 rounded-2xl p-6 shadow-xl backdrop-blur-sm transition-colors duration-300 overflow-hidden">
-                    <div className="pointer-events-none absolute left-1/2 top-0 h-px w-32 -translate-x-1/2 bg-gradient-to-r from-transparent via-emerald-400/0 to-transparent transition-all duration-500 group-hover:via-emerald-400/60" />
+                <div className="animate-fade-in-up delay-500 group relative bg-slate-900/80 border border-slate-800/80 hover:border-emerald-500/30 rounded-2xl p-4 sm:p-6 shadow-xl backdrop-blur-sm transition-colors duration-300 overflow-hidden">
                     <h3 className="text-base font-bold text-white mb-4">Recent Transactions</h3>
                     {expenses.length === 0 ? (
                         <p className="text-slate-400 text-sm py-8 text-center">No expenses recorded yet. Click "Add Expense" to get started.</p>
                     ) : (
                         <div className="overflow-x-auto">
-                            <table className="w-full text-left border-collapse">
+                            <table className="w-full text-left border-collapse min-w-[600px]">
                                 <thead>
                                     <tr className="border-b border-slate-800 text-slate-400 text-xs uppercase tracking-wider">
                                         <th className="py-3 px-4 font-semibold">Category</th>
