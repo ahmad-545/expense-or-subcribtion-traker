@@ -61,7 +61,7 @@ export default function Sidebar() {
                 />
             )}
 
-            {/* Sidebar Drawer */}
+            {/* Sidebar Drawer - Fixed sticky height for desktop */}
             <aside className={`
                 fixed md:sticky top-0 left-0 z-50 h-screen w-64 bg-slate-900/95 backdrop-blur-xl border-r border-slate-800/80 flex flex-col justify-between
                 transition-transform duration-300 ease-in-out shadow-2xl md:shadow-none flex-shrink-0
