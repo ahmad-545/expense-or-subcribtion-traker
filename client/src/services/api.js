@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-    baseURL: 'https://expense-or-subcribtion-traker-jw8j.vercel.app/api', // Updated to live Vercel backend
+    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
 });
 
 API.interceptors.request.use((req) => {

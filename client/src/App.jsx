@@ -9,6 +9,8 @@ import Subscriptions from './pages/Subscriptions';
 import AIAdvisor from './pages/AIAdvisor';
 import Profile from './pages/Profile';
 import Budgets from './pages/Budgets';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 const ProtectedRoute = ({ children }) => {
     const { user, loading } = useContext(AuthContext);
@@ -31,6 +33,8 @@ export default function App() {
                 <Routes>
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/reset-password/:token" element={<ResetPassword />} />
                     <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                     <Route path="/expenses" element={<ProtectedRoute><Expenses /></ProtectedRoute>} />
                     <Route path="/subscriptions" element={<ProtectedRoute><Subscriptions /></ProtectedRoute>} />

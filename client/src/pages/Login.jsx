@@ -224,9 +224,17 @@ export default function Login() {
 
                 {/* Password */}
                 <div>
-                  <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-300">
-                    Password
-                  </label>
+                  <div className="mb-2 flex items-center justify-between">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-300">
+                      Password
+                    </label>
+                    <Link
+                      to="/forgot-password"
+                      className="text-xs text-emerald-400 transition hover:text-emerald-300 hover:underline"
+                    >
+                      Forgot password?
+                    </Link>
+                  </div>
 
                   <div className="group relative">
                     <Lock

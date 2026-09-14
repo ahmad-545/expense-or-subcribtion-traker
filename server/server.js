@@ -21,8 +21,10 @@ app.use(express.json());
 // CORS Configuration (Localhost aur live Vercel frontend dono ke liye allowed)
 const allowedOrigins = [
     'http://localhost:5173',
+    'http://localhost:5174',
     'http://localhost:3000',
-    'https://expense-or-subcribtion-traker.vercel.app'
+    'https://expense-or-subcribtion-traker.vercel.app',
+    'https://expense-or-subcribtion-traker-jw8j.vercel.app'
 ];
 
 app.use(cors({

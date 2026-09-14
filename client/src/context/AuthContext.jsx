@@ -28,7 +28,6 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Phone parameter hata diya gaya hai kyunki ab hum email use kar rahe hain
     const register = async (name, email, password, monthlyIncome, savingGoal) => {
         try {
             await API.post('/auth/register', { 
@@ -44,7 +43,6 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Phone ki jagah email kar diya gaya hai
     const updateProfile = async (monthlyIncome, savingGoal, email) => {
         try {
             const { data } = await API.put('/auth/update-profile', { 
@@ -57,6 +55,30 @@ export const AuthProvider = ({ children }) => {
             return { success: true, message: data.message };
         } catch (err) {
             return { success: false, message: err.response?.data?.error || err.response?.data?.message || "Profile update failed" };
+        }
+    };
+
+    const forgotPassword = async (email) => {
+        try {
+            const { data } = await API.post('/auth/forgot-password', { email });
+            return { success: true, message: data.message };
+        } catch (err) {
+            return { success: false, message: err.response?.data?.message || "Failed to send reset email" };
+        }
+    };
+
+    const resetPassword = async (token, password) => {
+        try {
+            const { data } = await API.post(`/auth/reset-password/${token}`, { password });
+            // Auto-login: token aur user store kar lo
+            if (data.token && data.user) {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                setUser(data.user);
+            }
+            return { success: true, message: data.message, autoLogin: !!(data.token) };
+        } catch (err) {
+            return { success: false, message: err.response?.data?.message || "Password reset failed" };
         }
     };
 
@@ -73,8 +95,8 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, register, updateProfile, logout, loading }}>
+        <AuthContext.Provider value={{ user, login, register, updateProfile, forgotPassword, resetPassword, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );
-};
+};
