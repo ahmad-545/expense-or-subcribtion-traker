@@ -1,15 +1,12 @@
 node_modules/
-.env
-.env.local
 dist/
 build/
 *.log
-.vscode/
 .DS_Store
 .wwebjs_auth/
 .wwebjs_cache/
 node_modules/
-.env
 branch_structure.json
 temp_auto_push.bat
 temp_interactive_push.bat
+config.bat

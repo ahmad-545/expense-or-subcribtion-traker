@@ -4,7 +4,6 @@ import { sendEmail } from '../utils/sendEmail.js';
 
 export const addExpense = async (req, res) => {
     try {
-        console.log("RECEIVED EXPENSE BODY:", req.body);
         let { amount, category, description, date, paymentMethod } = req.body;
         const userId = req.user.id;
 

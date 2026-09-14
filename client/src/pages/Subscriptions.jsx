@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import API from '../services/api';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
-import { CreditCard, Plus, Calendar, AlertTriangle } from 'lucide-react';
+import { CreditCard, Plus, Calendar, AlertTriangle, Trash2 } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 export default function Subscriptions() {
     const [subscriptions, setSubscriptions] = useState([]);
@@ -59,6 +60,26 @@ export default function Subscriptions() {
         }
     };
 
+    const handleDeleteSubscription = async (id) => {
+        try {
+            await API.delete(`/subscriptions/${id}`);
+            toast.success('Subscription deleted!');
+            fetchData();
+        } catch (err) {
+            toast.error(err.response?.data?.message || 'Failed to delete subscription');
+        }
+    };
+
+    const handleDeleteCard = async (id) => {
+        try {
+            await API.delete(`/cards/${id}`);
+            toast.success('Card removed!');
+            fetchData();
+        } catch (err) {
+            toast.error(err.response?.data?.message || 'Failed to remove card');
+        }
+    };
+
     return (
         <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex flex-col md:flex-row relative selection:bg-emerald-500 selection:text-white">
             <Sidebar />
@@ -89,10 +110,19 @@ export default function Subscriptions() {
                                 <p className="text-slate-400 text-sm col-span-full py-8 bg-slate-900 border border-slate-800 rounded-2xl text-center shadow-xl">No subscriptions added yet.</p>
                             ) : (
                                 subscriptions.map((sub) => (
-                                    <div key={sub._id} className="bg-slate-900 border border-slate-800 p-5 md:p-6 rounded-2xl space-y-4 shadow-xl">
+                                    <div key={sub._id} className="bg-slate-900 border border-slate-800 p-5 md:p-6 rounded-2xl space-y-4 shadow-xl group">
                                         <div className="flex items-center justify-between">
                                             <h4 className="font-bold text-base md:text-lg text-white">{sub.name}</h4>
-                                            <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-semibold rounded-full">{sub.billingCycle}</span>
+                                            <div className="flex items-center gap-2">
+                                                <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-semibold rounded-full">{sub.billingCycle}</span>
+                                                <button
+                                                    onClick={() => handleDeleteSubscription(sub._id)}
+                                                    className="p-1.5 rounded-lg text-slate-600 hover:text-red-400 hover:bg-red-500/10 transition-colors opacity-0 group-hover:opacity-100"
+                                                    title="Delete subscription"
+                                                >
+                                                    <Trash2 size={14} />
+                                                </button>
+                                            </div>
                                         </div>
                                         <div className="text-xl md:text-2xl font-bold text-emerald-400">Rs. {sub.amount}</div>
                                         <div className="flex items-center gap-2 text-xs text-slate-400 pt-3 border-t border-slate-800">
@@ -112,10 +142,19 @@ export default function Subscriptions() {
                                 <p className="text-slate-400 text-sm col-span-full py-8 bg-slate-900 border border-slate-800 rounded-2xl text-center shadow-xl">No cards saved yet.</p>
                             ) : (
                                 cards.map((card) => (
-                                    <div key={card._id} className="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 p-5 md:p-6 rounded-2xl space-y-6 shadow-xl relative overflow-hidden">
+                                    <div key={card._id} className="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 p-5 md:p-6 rounded-2xl space-y-6 shadow-xl relative overflow-hidden group">
                                         <div className="flex items-center justify-between">
                                             <span className="font-bold text-white tracking-wider">{card.bank}</span>
-                                            <CreditCard className="text-emerald-400" size={24} />
+                                            <div className="flex items-center gap-2">
+                                                <CreditCard className="text-emerald-400" size={22} />
+                                                <button
+                                                    onClick={() => handleDeleteCard(card._id)}
+                                                    className="p-1.5 rounded-lg text-slate-600 hover:text-red-400 hover:bg-red-500/10 transition-colors opacity-0 group-hover:opacity-100"
+                                                    title="Remove card"
+                                                >
+                                                    <Trash2 size={14} />
+                                                </button>
+                                            </div>
                                         </div>
                                         <div className="text-lg md:text-xl font-mono tracking-widest text-slate-300">
                                             •••• •••• •••• {card.lastFourDigits}
